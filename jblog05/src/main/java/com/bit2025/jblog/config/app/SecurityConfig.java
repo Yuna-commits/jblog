@@ -1,4 +1,4 @@
-package com.bit2025.jblog05.config.app;
+package com.bit2025.jblog.config.app;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

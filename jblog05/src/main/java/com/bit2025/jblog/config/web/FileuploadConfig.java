@@ -1,4 +1,4 @@
-package com.bit2025.jblog05.config.web;
+package com.bit2025.jblog.config.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

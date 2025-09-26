@@ -1,12 +1,12 @@
-package com.bit2025.jblog05.config;
+package com.bit2025.jblog.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.bit2025.jblog05.config.app.DBConfig;
-import com.bit2025.jblog05.config.app.MyBatisConfig;
+import com.bit2025.jblog.config.app.DBConfig;
+import com.bit2025.jblog.config.app.MyBatisConfig;
 
 /**
  * applicationContext.xml

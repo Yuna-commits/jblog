@@ -1,4 +1,4 @@
-package com.bit2025.jblog05.config;
+package com.bit2025.jblog.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.bit2025.jblog05.config.web.FileuploadConfig;
-import com.bit2025.jblog05.config.web.MvcConfig;
+import com.bit2025.jblog.config.web.FileuploadConfig;
+import com.bit2025.jblog.config.web.MvcConfig;
 
 /**
  * dispatcher-servlet.xml

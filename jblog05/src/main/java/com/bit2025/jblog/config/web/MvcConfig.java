@@ -1,4 +1,4 @@
-package com.bit2025.jblog05.config.web;
+package com.bit2025.jblog.config.web;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
