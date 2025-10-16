@@ -1,0 +1,51 @@
+# Spring Configuration
+spring:
+   application:
+      name: jblog07
+
+   devtools:
+      restart:
+         enabled: true
+      livereload:
+         enabled: true
+
+   # Thymeleaf
+   thymeleaf:
+      check-template-location: true
+      mode: HTML
+      prefix: classpath:templates/
+      suffix: .html
+      encoding: UTF-8
+      view-names: th/*
+      cache: false
+
+   web:
+      resources:
+         static-locations: file:/jblog-uploads/
+
+   servlet:
+      multipart:
+         enabled: true
+         max-file-size: 10485760
+         max-request-size: 104857600
+         file-size-threshold: 5242880
+
+   # DataSource(Connection Pool)
+   datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      url: jdbc:mariadb://192.168.0.181:3306/jblog
+      username: jblog
+      password: jblog
+      hikari:
+         minimum-idle: 10
+         maximum-pool-size: 20
+
+# Server Configuration
+server:
+   port: 8088
+   servlet:
+      context-path: /jblog07
+
+# Logging
+logging:
+   config: classpath:logback.xml
