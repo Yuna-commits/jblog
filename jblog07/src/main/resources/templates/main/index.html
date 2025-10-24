@@ -1,23 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>JBlog</title>
-	<link rel="stylesheet" href="/static/css/jblog.css">
+	<link rel="stylesheet" th:href="@{/css/jblog.css}">
 </head>
 <body>
 	<div class="center-content">
-		<h1 class="logo">JBlog</h1>
-		<ul class="menu">
-			<li><a href="">로그인</a></li>
-			<li><a href="">회원가입</a></li>
-			<li><a href="">로그아웃</a></li>
-			<li><a href="">내블로그</a></li>
-		</ul>
+		<th:block th:insert="~{includes/header}"></th:block>
 		<form class="search-form">
 			<fieldset>
-				<input type="text" name="keyword" /> <input type="submit"
-					value="검색" />
+				<input type="text" name="keyword" /> 
+				<input type="submit" value="검색" />
 			</fieldset>
 			<fieldset>
 				<input type="radio" name="which" value="blog-title"> <label>블로그 제목</label>

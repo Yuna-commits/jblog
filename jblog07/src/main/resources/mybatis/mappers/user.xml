@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	<insert id="insertUser" parameterType="uservo">
+		<![CDATA[
+			insert 
+			  into user 
+			values (#{blogId}, #{name}, #{password})
+		]]>
+	</insert>
+	
+	<select id="findById" parameterType="string" resultType="map">
+		<![CDATA[
+			select blog_id as blogId, name, password
+			  from user 
+			 where blog_id = #{blogId}
+		]]>
+	</select>
+</mapper>
