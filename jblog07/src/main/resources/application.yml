@@ -13,14 +13,14 @@ spring:
    thymeleaf:
       check-template-location: true
       mode: HTML
-      prefix: classpath:templates/
+      prefix: classpath:/templates/
       suffix: .html
       encoding: UTF-8
       cache: false
 
    web:
       resources:
-         static-locations: file:/jblog-uploads/
+         static-locations: [classpath:/static/, file:/jblog-uploads/]
 
    servlet:
       multipart:
@@ -38,6 +38,10 @@ spring:
       hikari:
          minimum-idle: 10
          maximum-pool-size: 20
+
+# MyBatis
+mybatis:
+   config-location: classpath:mybatis/configuration.xml
 
 # Server Configuration
 server:
