@@ -1,25 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>JBlog</title>
-	<link rel="stylesheet" href="/static/css/jblog.css">
-	<script src="/static/js/jquery/jquery-1.9.0.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JBlog</title>
+<link rel="stylesheet" th:href="@{/css/jblog.css}">
+<link id="contextPathHolder" th:data-contextPath="${@environment.getProperty('server.servlet.context-path')}">
+<script th:src="@{/js/jquery/jquery-1.9.0.js}"></script>
+<script type="text/javascript">
+	const contextPath = $("#contextPathHolder").attr("data-contextPath");
+	
+	$(function() {
+		const loginForm = $("#login-form");
+		const inputId = $("#blogId");
+		const inputPwd = $("#password");
+		const errorDiv = $("#login-error");
+		
+		// 페이지 로드 시 아이디 입력란 포커스
+		inputId.focus();
+		
+		loginForm.submit(function(e) {
+			e.preventDefault(); // 기본 폼 제출 막기
+			errorDiv.hide().text(""); // 이전 에러 초기화
+			
+			const blogId = inputId.val();
+			const password = inputPwd.val();
+			
+			if(!blogId) {
+				errorDiv.text("아이디를 입력해 주세요.").show();
+				inputId.focus();
+				return;
+			}
+			
+			if(!password) {
+				errorDiv.text("비밀번호를 입력해 주세요.").show();
+				inputPwd.focus();
+				return;
+			}
+
+			$.ajax({
+				url: contextPath + "/user/auth",
+				type: "POST",
+				data: {
+					blogId,
+					password
+				},
+				dataType: "json",
+				success: function(response) {
+					if(response.result === "success") {
+						alert(response.data);
+						window.location.href = contextPath;
+					} else {
+						errorDiv.text(response.message).show();
+						$("#blogId").focus();
+					}
+				},
+				error: function(xhr, status, err) {
+					console.error("Ajax 오류: ", err);
+					alert("서버와 통신 중 오류가 발생했습니다.");
+				}
+			})
+		})
+		
+	})
+</script>
 </head>
 <body>
 	<div class="center-content">
 		<h1 class="logo">JBlog</h1>
-		<ul class="menu">
-			<li><a href="">로그인</a></li>
-			<li><a href="">회원가입</a></li>
-			<li><a href="">로그아웃</a></li>
-			<li><a href="">내블로그</a></li>
-		</ul>
-		<form class="login-form">
-      		<label>아이디</label> <input type="text" name="id">
-      		<label>패스워드</label> <input type="text" name="password">
+		<form class="login-form" id="login-form" method="post" th:action="@{/user/auth}">
+		
+      		<input type="text" id="blogId" name="blogId" placeholder="아이디">
+      		<input type="password" id="password" name="password" placeholder="비밀번호">
+      		
+      		<!-- 로그인 에러 메시지 표시 -->
+      		<div id="login-error" class="error" style="display: none;"></div>
+      		
       		<input type="submit" value="로그인">
+      		
 		</form>
+		
+		<ul class="menu">
+			<li><a th:href="@{/}">메인으로</a></li>	
+		</ul>
 	</div>
 </body>
 </html>
