@@ -7,7 +7,25 @@
 </head>
 <body>
 	<div class="center-content">
-		<th:block th:insert="~{includes/header}"></th:block>
+		<th:block th:insert="~{includes/header}" />
+		<ul class="menu">
+			<div sec:authorize="!isAuthenticated()">
+				<li><a th:href="@{/user/join}">회원가입</a></li>
+				<li><a th:href="@{/user/login}">로그인</a></li>
+			</div>
+			<div sec:authorize="isAuthenticated()">
+				<!-- 
+				#authentication
+				- Spring Security의 Authentication 객체 접근
+				
+				Thymeleaf URL 표현식
+				- @{/{var}(var=${expression})} 형태로 변수 치환
+				- ${} 직접 연결은 표현식을 문자열로 인코딩해버림!
+				 -->
+				<li><a th:href="@{/{blogId}(blogId=${#authentication.principal.blogId})}">나의 블로그</a></li>
+				<li><a th:href="@{/user/logout}">로그아웃</a></li>
+			</div>
+		</ul>
 		<form class="search-form">
 			<fieldset>
 				<input type="text" name="keyword" /> 

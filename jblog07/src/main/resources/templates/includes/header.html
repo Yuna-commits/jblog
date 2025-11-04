@@ -1,11 +1,1 @@
 <h1 class="logo">JBlog</h1>
-<ul class="menu">
-	<div sec:authorize="!isAuthenticated()">
-		<li><a th:href="@{/user/join}">회원가입</a></li>
-		<li><a th:href="@{/user/login}">로그인</a></li>
-	</div>
-	<div sec:authorize="isAuthenticated()">
-		<li><a th:href="@{/}">나의 블로그</a></li>
-		<li><a th:href="@{/user/logout}">로그아웃</a></li>
-	</div>
-</ul>

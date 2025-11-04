@@ -13,10 +13,12 @@
 		// id = "btn-check" 클릭 시
 		$("#btn-check").click(function() {
 			
+			$("#blogId").focus();
 			var blogId = $("#blogId").val();
 			
 			if(!blogId) {
 				alert("아이디를 입력해 주세요.");
+				$("#blogId").focus();
 				return;
 			}
 			
@@ -52,18 +54,18 @@
 
 <body>
 	<div class="center-content">
-		<h1 class="logo">JBlog</h1>
+		<th:block th:insert="~{includes/header}" />
 		<form class="join-form" id="join-form" th:object="${userVo}"
 			method="post" th:action="@{/user/join}">
 
-			<label class="block-label" for="name">이름</label> 
-			<input id="name" name="name" type="text" th:field="*{name}">
+			<label class="block-label" for="name"></label> 
+			<input id="name" name="name" type="text" th:field="*{name}" placeholder="이름">
 			<!-- 유효성 검사 실패 오류 메시지 -->
 			<div class="error" th:if="${#fields.hasErrors('name')}" 
 				th:errors="*{name}"></div>
 
-			<label class="block-label" for="blogId">아이디</label> 
-			<input id="blogId" name="blogId" type="text" th:field="*{blogId}">
+			<label class="block-label" for="blogId"></label> 
+			<input id="blogId" name="blogId" type="text" th:field="*{blogId}" placeholder="아이디">
 			<!-- 유효성 검사 실패 오류 메시지 -->
 			<div class="error" th:if="${#fields.hasErrors('blogId')}" 
 				th:errors="*{blogId}"></div>
@@ -71,8 +73,8 @@
 			<input id="btn-check" type="button" value="id 중복체크"> 
 			<img id="img-check" style="display: none;" th:src="@{/images/check.png}">
 			
-			<label class="block-label" for="password">비밀번호</label>
-			<input id="password" name="password" type="password" th:field="*{password}">
+			<label class="block-label" for="password"></label>
+			<input id="password" name="password" type="password" th:field="*{password}" placeholder="비밀번호">
 			<!-- 유효성 검사 실패 오류 메시지 -->
 			<div class="error" th:if="${#fields.hasErrors('password')}" 
 				th:errors="*{password}"></div>
@@ -86,6 +88,10 @@
 			<input type="submit" value="가입하기">
 
 		</form>
-		<th:block th:insert="~{includes/footer}"></th:block>
+		
+		<ul class="menu">
+			<li><a th:href="@{/}">메인으로</a></li>
+			<li><a th:href="@{/user/login}">로그인 하기</a></li>			
+		</ul>
 	</div>
 </body>
