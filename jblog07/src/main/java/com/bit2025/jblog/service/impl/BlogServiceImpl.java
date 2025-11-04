@@ -16,8 +16,15 @@ public class BlogServiceImpl implements BlogService {
 		this.blogRepository = blogRepository;
 	}
 
+	// 개인 블로그 등록
 	@Override
 	public void addBlog(BlogVo vo) {
 		blogRepository.insertBlog(vo);
+	}
+
+	// 개인 블로그 조회
+	@Override
+	public BlogVo getBlog(String blogId) {
+		return blogRepository.findByBlogId(blogId);
 	}
 }

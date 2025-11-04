@@ -16,9 +16,16 @@ public class BlogRepositoryImpl implements BlogRepository {
 		this.sqlSession = sqlSession;
 	}
 
+	// 블로그 등록
 	@Override
 	public int insertBlog(BlogVo vo) {
 		return sqlSession.insert("blog.insertBlog", vo);
+	}
+
+	// 블로그 조회
+	@Override
+	public BlogVo findByBlogId(String blogId) {
+		return sqlSession.selectOne("blog.findByBlogId", blogId);
 	}
 
 }

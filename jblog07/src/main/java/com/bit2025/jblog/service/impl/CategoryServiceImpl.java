@@ -1,5 +1,7 @@
 package com.bit2025.jblog.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.bit2025.jblog.domain.CategoryVo;
@@ -16,9 +18,16 @@ public class CategoryServiceImpl implements CategoryService {
 		this.categoryRepository = categoryRepository;
 	}
 
+	// 카테고리 등록
 	@Override
 	public void addCategory(CategoryVo vo) {
 		categoryRepository.insertCategory(vo);
+	}
+
+	// 등록된 카테고리 목록 조회
+	@Override
+	public List<CategoryVo> getCategories(String blogId) {
+		return categoryRepository.findCategoriesByBlogId(blogId);
 	}
 
 }

@@ -8,4 +8,13 @@
 			values(null, #{name}, #{description}, #{blogId})
 		]]>
 	</insert>
+	
+	<select id="findCategoriesByBlogId" parameterType="string" resultType="categoryvo">
+		<![CDATA[
+			select id as categoryId, name, description, blog_id as blogId 
+			  from category 
+			 where blog_id = #{blogId} 
+			 order by name asc;
+		]]>
+	</select>
 </mapper>

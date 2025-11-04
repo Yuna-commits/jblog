@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 public class CategoryVo {
 
-	private Integer id;
+	private Integer categoryId;
 
 	@NotBlank(message = "카테고리는 필수 입력입니다.")
 	private String name;
@@ -15,12 +15,12 @@ public class CategoryVo {
 
 	private String blogId; // user id
 
-	public Integer getId() {
-		return id;
+	public Integer getCategoryId() {
+		return categoryId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getName() {
@@ -49,7 +49,8 @@ public class CategoryVo {
 
 	@Override
 	public String toString() {
-		return "CategoryVo [id=" + id + ", name=" + name + ", description=" + description + ", blogId=" + blogId + "]";
+		return "CategoryVo [categoryId=" + categoryId + ", name=" + name + ", description=" + description + ", blogId="
+				+ blogId + "]";
 	}
 
 }

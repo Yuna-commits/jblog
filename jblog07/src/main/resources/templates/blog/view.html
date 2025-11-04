@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>JBlog</title>
+	<link rel="stylesheet" th:href="@{/css/jblog.css}">
+</head>
+<body>
+	<div id="container" th:object="${blogView}">
+		<div id="header">
+			<h1 th:text="*{blogInfo['title']}"></h1>
+			<ul>
+				<li sec:authorize="!isAuthenticated()">
+					<a th:href="@{/user/login}">로그인</a>
+				</li>
+				<li sec:authorize="isAuthenticated()">
+					<!-- 블로그 관리는 블로그 주인만 하도록 추가 필요!! -->
+					<a th:href="@{/{blogId}/admin/basic}">블로그 관리</a>
+					&nbsp;
+					<a th:href="@{/user/logout}">로그아웃</a>
+				</li>
+			</ul>
+		</div>
+		<div id="wrapper">
+			<div id="content">
+				<!-- 최신 게시글 -->
+				<div class="blog-content" th:if="*{selectedPost}==null">
+					<h4>등록된 게시글이 없습니다.</h4>
+				</div>
+				<div class="blog-content" th:unless="*{selectedPost}==null">
+					<p class="category" th:text="*{selectedPost['categoryName']}" />
+					<h4 th:text="*{selectedPost['title']}"></h4>
+					
+					<!-- #strings.replace(*{...}, ...) 선택식과 변수식 혼합 사용은 파싱이 꼬일 수 있음 -->
+					<p th:utext="${#strings.replace(blogView.selectedPost.contents, newLineChar, '<br />')}" />
+					<p class="date" th:text="*{selectedPost['regDate']}" />
+				</div>
+				
+				<ul class="blog-list">
+					<li class="list-header">
+						<span class="date">작성일</span>
+						<span class="title">글 제목</span>
+					</li>
+					<li th:each="post : *{postPage['posts']}">
+						<!-- contextPath/blogId/categoryID/postId -->
+						<a th:href="@{/{blogId}/{categoryId}/{postId}(
+									blogId=*{blogInfo['blogId']},
+									categoryId=${post.categoryId},
+									postId=${post.postId})}"
+							th:text="${post['title']}"></a>
+							
+						<span th:text="${post['regDate']}"></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="extra">
+			<div class="blog-logo">
+				<!-- @{...} 표현식 안에 *{...}를 중첩하면 문법 오류 -->
+				<img th:src="@{${blogView.blogInfo.profile}}" alt="블로그 이미지입니다.">
+			</div>
+		</div>
+
+		<!-- 카테고리 목록 -->
+		<div id="navigation">
+			<h2 class="category">카테고리</h2>
+			<ul>
+				<li th:each="category : *{categories}">
+					<a th:href="@{/{blogId}/{categoryId}(
+								blogId=*{blogInfo['blogId']}, 
+								categoryId=${category.categoryId})}" 
+						th:text="${category['name']}"></a>
+				</li>
+			</ul>
+		</div>
+		
+		<div id="footer">
+			<p>
+				<strong><span th:text="*{blogInfo['title']}"></span></strong> is powered by JBlog (c)2016
+			</p>
+		</div>
+	</div>
+</body>
+</html>

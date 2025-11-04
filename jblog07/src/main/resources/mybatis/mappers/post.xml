@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="post">
+	<select id="findByPostId" parameterType="integer" resultType="postvo">
+		<![CDATA[
+			select id as postId, title, contents, reg_date as regDate 
+			 from post 
+			 where id = #{postId}
+		]]>
+	</select>
+	
+	<select id="findLatestPost" parameterType="map" resultType="postvo">
+		<![CDATA[
+			select post.id as postId, category.id as categoryId, 
+				   name as categoryName, title, contents, reg_date as regDate
+			  from post
+			  join category 
+			    on post.category_id = category.id
+			 where category.blog_id = #{blogId} 
+		]]>
+		<if test="categoryId != null">
+			<![CDATA[
+				and category.id = #{categoryId}
+			]]>
+		</if>
+		<![CDATA[
+			 order by reg_date desc
+		     limit 1;
+		]]>
+	</select>
+	
+	<select id="findPosts" parameterType="map" resultType="postvo">
+		<![CDATA[
+			select post.id as postId, category.id as categoryId,
+				   title, reg_date as regDate
+			  from post
+			  join category 
+			    on post.category_id = category.id
+			 where category.blog_id = #{blogId}
+		]]>
+		<if test="categoryId != null">
+			<![CDATA[
+				and category.id = #{categoryId}
+			]]>
+		</if>
+		<![CDATA[
+			 order by reg_date desc
+			 limit #{pageSize} offset #{offset};
+		]]>
+	</select>
+	
+	<select id="countPosts" parameterType="map" resultType="integer">
+		<![CDATA[
+			select count(*)
+			  from post
+			  join category 
+			    on post.category_id = category.id
+			 where category.blog_id = #{blogId}
+			 ]]>
+		<if test="categoryId != null">
+			<![CDATA[
+				and category.id = #{categoryId}
+			]]>
+		</if>
+	</select>
+</mapper>
