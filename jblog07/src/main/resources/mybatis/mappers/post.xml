@@ -3,9 +3,12 @@
 <mapper namespace="post">
 	<select id="findByPostId" parameterType="integer" resultType="postvo">
 		<![CDATA[
-			select id as postId, title, contents, reg_date as regDate 
+			select post.id as postId, category.id as categoryId, 
+				   name as categoryName, title, contents, reg_date as regDate 
 			 from post 
-			 where id = #{postId}
+			 join category
+			   on post.category_id = category.id
+			 where post.id = #{postId}
 		]]>
 	</select>
 	
@@ -24,8 +27,8 @@
 			]]>
 		</if>
 		<![CDATA[
-			 order by reg_date desc
-		     limit 1;
+			 order by reg_date desc, post.id desc
+		     limit 1
 		]]>
 	</select>
 	
@@ -44,8 +47,8 @@
 			]]>
 		</if>
 		<![CDATA[
-			 order by reg_date desc
-			 limit #{pageSize} offset #{offset};
+			 order by reg_date desc, post.id desc
+			 limit #{pageSize} offset #{offset}
 		]]>
 	</select>
 	

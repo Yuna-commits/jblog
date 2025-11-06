@@ -47,7 +47,7 @@ public class UserJoinFacade {
 		BlogVo defaultBlog = new BlogVo();
 		defaultBlog.setBlogId(vo.getBlogId());
 		defaultBlog.setTitle(vo.getName() + "의 블로그");
-		defaultBlog.setProfile("/images/spring-logo.jpg");
+		defaultBlog.setProfile("spring-logo.jpg");
 		
 		blogService.addBlog(defaultBlog);
 

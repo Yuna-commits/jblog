@@ -27,28 +27,29 @@ public class BlogController {
 	}
 
 	/**
-	 * URL 패턴
-	 * - GET /{blogId}/ : 블로그 메인 페이지(최신 게시글 + 전체 게시글 목록)
-	 * - GET /{blogId}/{categoryId} : 특정 카테고리의 게시글 목록(최신 게시글 + 전체 게시글 목록)
-	 * - GET /{blogId}/{categoryId}/{postId} : 특정 게시글 상세보기(전체 게시글 목록)
+	 * 블로그 메인 페이지 조회
+	 * ===
+	 * /{blogId}?categoryId={}&postId={}&page={}
 	 * 
-	 * 컨트롤러에서 요청 경로를 해석,
-	 * 블로그 조회에 필요한 정보는 BlogViewFacade에 위임해서 얻음
+	 * - categoryId == null -> 블로그 전체 게시글 목록 + 최신 게시글 표시
+	 * 		&& postId != null -> 특정 게시글 표시
+	 * - categoryId != null
+	 * 		&& postId == null -> 해당 카테고리의 최신 게시글 표시
+	 * 		&& postId != null -> 해당 카테고리의 특정 게시글 표시
 	 */
-	@GetMapping({ "", "/", "/{categoryId}", "/{categoryId}/{postId}"})
+	@GetMapping({ "", "/" })
 	public String view(Model model,
 			@PathVariable("blogId") String blogId,
-			@PathVariable(value = "categoryId", required = false) Integer categoryId,
-			@PathVariable(value = "postId", required = false) Integer postId,
+			@RequestParam(value = "categoryId", required = false) Integer categoryId,
+			@RequestParam(value = "postId", required = false) Integer postId,
 			@RequestParam(value = "page", defaultValue = "1") int page) {
-		
+
 		BlogViewDto dto = viewBlog.getBlogView(blogId, categoryId, postId, page);
-		
+
 		model.addAttribute("blogView", dto);
+		model.addAttribute("hasCategory", (categoryId != null));
 		model.addAttribute("newLineChar", "\n");
-		
-		System.out.println(dto);
-		
+
 		return "blog/view";
 	}
 	

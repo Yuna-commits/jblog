@@ -40,6 +40,10 @@ public class BlogViewFacade {
 	 * - postId의 유무에 따라 표시할 게시글 선택
 	 * 	 - null -> 최신 게시글(블로그, 카테고리)
 	 * 	 - 값 존재 -> 지정된 게시글의 상세 정보
+	 * 
+	 * - paging
+	 * 	 - limit PAGE_SIZE offset [index]
+	 * 	 - index 행부터 PAGE_SIZE개 (index + PAGE_SIZE 행까지) 조회
 	 * ===
 	 * @param blogId : 블로그 식별자
 	 * @param categoryId : 선택된 카테고리(optional)
@@ -51,7 +55,7 @@ public class BlogViewFacade {
 		// 개인 블로그 조회
 		BlogVo blogInfo = blogService.getBlog(blogId);
 
-		// 등록된 카테고리 목록 조회
+		// 등록된 카테고리 전체 목록 조회
 		List<CategoryVo> categories = categoryService.getCategories(blogId);
 
 		// 게시글
@@ -59,7 +63,7 @@ public class BlogViewFacade {
 						? postService.getPost(postId) // 선택된 게시글
 						: postService.getLatestPost(blogId, categoryId); // 최신 게시글
 		
-		// 서비스에서 categoryId 유무에 따라 조회할 목록의 범위(전체, 카테고리) 판단
+		// (전체/카테고리) 게시글 목록
 		PostPageDto postPage = postService.getPosts(blogId, categoryId, page);
 
 		return new BlogViewDto(blogInfo, categories, selectedPost, postPage);

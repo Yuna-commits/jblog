@@ -41,8 +41,8 @@ public class BlogViewDto {
 
 	@Override
 	public String toString() {
-		return "BlogViewDto [blogInfo=" + blogInfo + ", categories=" + categories + ", selectedPost=" + selectedPost
-				+ ", postPage=" + postPage + "]";
+		return "BlogViewDto\n[blogInfo=" + blogInfo + "]\n[categories=" + categories + "]\n[selectedPost=" + selectedPost
+				+ "]\n[postPage=" + postPage + "]";
 	}
 
 }

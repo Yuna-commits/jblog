@@ -320,17 +320,29 @@ div#content .blog-list {
 	border-bottom: 1px solid #ddd;
 }
 
+.blog-list li.active a, li.active span {
+	color: #444;
+	font-weight: bold;
+}
+
 .blog-list li:last-child {
 	border-bottom: none; /* 마지막 항목은 밑줄 제거 */
 }
 
 .blog-list li a {
+	color: #999;
 	display: block;
 	float: left;
 }
 
+.blog-list li a:hover {
+	display: block;
+	float: left;
+	color: #dc143c;
+}
+
 .blog-list li span {
-	color: #666;
+	color: #999;
 	font-size: 0.9em;
 	display: block;
 	float: right;

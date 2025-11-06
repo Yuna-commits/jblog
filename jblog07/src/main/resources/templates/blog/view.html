@@ -8,7 +8,7 @@
 <body>
 	<div id="container" th:object="${blogView}">
 		<div id="header">
-			<h1 th:text="*{blogInfo['title']}"></h1>
+			<h1 th:text="*{blogInfo.title}"></h1>
 			<ul>
 				<li sec:authorize="!isAuthenticated()">
 					<a th:href="@{/user/login}">로그인</a>
@@ -24,16 +24,16 @@
 		<div id="wrapper">
 			<div id="content">
 				<!-- 최신 게시글 -->
-				<div class="blog-content" th:if="*{selectedPost}==null">
+				<div class="blog-content" th:if="*{selectedPost == null}">
 					<h4>등록된 게시글이 없습니다.</h4>
 				</div>
-				<div class="blog-content" th:unless="*{selectedPost}==null">
-					<p class="category" th:text="*{selectedPost['categoryName']}" />
-					<h4 th:text="*{selectedPost['title']}"></h4>
+				<div class="blog-content" th:if="*{selectedPost != null}">
+					<p class="category" th:text="*{selectedPost.categoryName}"></p>
+					<h4 th:text="*{selectedPost.title}"></h4>
 					
 					<!-- #strings.replace(*{...}, ...) 선택식과 변수식 혼합 사용은 파싱이 꼬일 수 있음 -->
-					<p th:utext="${#strings.replace(blogView.selectedPost.contents, newLineChar, '<br />')}" />
-					<p class="date" th:text="*{selectedPost['regDate']}" />
+					<p th:utext="${#strings.replace(blogView.selectedPost.contents, newLineChar, '<br />')}"></p>
+					<p class="date" th:text="*{selectedPost.regDate}"></p>
 				</div>
 				
 				<ul class="blog-list">
@@ -41,16 +41,25 @@
 						<span class="date">작성일</span>
 						<span class="title">글 제목</span>
 					</li>
-					<li th:each="post : *{postPage['posts']}">
-						<!-- contextPath/blogId/categoryID/postId -->
-						<a th:href="@{/{blogId}/{categoryId}/{postId}(
-									blogId=*{blogInfo['blogId']},
-									categoryId=${post.categoryId},
-									postId=${post.postId})}"
-							th:text="${post['title']}"></a>
-							
-						<span th:text="${post['regDate']}"></span>
-					</li>
+					<!-- 전체 게시글 목록 -->
+					<th:block th:if="${!hasCategory}">
+						<li th:each="post : *{postPage.posts}"
+							th:classappend="${post.postId == blogView.selectedPost.postId} ? 'active' : ''">
+							<a th:href="@{/{blogId}(blogId=*{blogInfo.blogId}, postId=${post.postId}, page=*{postPage.currentPage})}"
+								th:text="${post.title}"></a>
+							<span th:text="${post.regDate}"></span>
+						</li>
+					</th:block>
+					<!-- 카테고리 게시글 목록 -->
+					<th:block th:if="${hasCategory}">
+						<li th:each="post : *{postPage.posts}"
+							th:classappend="${post.postId == blogView.selectedPost.postId} ? 'active' : ''">
+							<a th:href="@{/{blogId}(blogId=*{blogInfo.blogId}, categoryId=${post.categoryId}, 
+										postId=${post.postId}, page=*{postPage.currentPage})}"
+								th:text="${post.title}"></a>
+							<span th:text="${post.regDate}"></span>
+						</li>
+					</th:block>
 				</ul>
 			</div>
 		</div>
@@ -58,26 +67,26 @@
 		<div id="extra">
 			<div class="blog-logo">
 				<!-- @{...} 표현식 안에 *{...}를 중첩하면 문법 오류 -->
-				<img th:src="@{${blogView.blogInfo.profile}}" alt="블로그 이미지입니다.">
+				<img th:src="@{${'/images/' + blogView.blogInfo.profile}}" alt="블로그 이미지입니다.">
 			</div>
 		</div>
 
-		<!-- 카테고리 목록 -->
+		<!-- 등록된 카테고리 목록 -->
 		<div id="navigation">
 			<h2 class="category">카테고리</h2>
 			<ul>
+				<li><a th:href="@{/{blogId}(blogId=*{blogInfo.blogId})}">전체</a></li>
 				<li th:each="category : *{categories}">
-					<a th:href="@{/{blogId}/{categoryId}(
-								blogId=*{blogInfo['blogId']}, 
-								categoryId=${category.categoryId})}" 
-						th:text="${category['name']}"></a>
+					<a th:href="@{/{blogId}(blogId=*{blogInfo.blogId}, 
+								categoryId=${category.categoryId}, page=*{postPage.currentPage})}" 
+						th:text="${category.name}"></a>
 				</li>
 			</ul>
 		</div>
 		
 		<div id="footer">
 			<p>
-				<strong><span th:text="*{blogInfo['title']}"></span></strong> is powered by JBlog (c)2016
+				<strong><span th:text="*{blogInfo.title}"></span></strong> is powered by JBlog (c)2016
 			</p>
 		</div>
 	</div>
