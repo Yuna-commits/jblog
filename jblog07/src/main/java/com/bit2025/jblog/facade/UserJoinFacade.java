@@ -3,8 +3,6 @@ package com.bit2025.jblog.facade;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bit2025.jblog.domain.BlogVo;
-import com.bit2025.jblog.domain.CategoryVo;
 import com.bit2025.jblog.domain.UserVo;
 import com.bit2025.jblog.service.BlogService;
 import com.bit2025.jblog.service.CategoryService;
@@ -36,6 +34,8 @@ public class UserJoinFacade {
 	 * - BlogService : 개인 블로그 기본 정보 생성
 	 * - CategoryService : 기본 카테고리 생성
 	 * 
+	 * - 기본 정보 생성을 서비스 단으로 분리
+	 * 
 	 * @param vo : 회원가입 정보를 담은 UserVo
 	 */
 	@Transactional
@@ -44,20 +44,10 @@ public class UserJoinFacade {
 		userService.addUser(vo);
 
 		// 블로그 생성
-		BlogVo defaultBlog = new BlogVo();
-		defaultBlog.setBlogId(vo.getBlogId());
-		defaultBlog.setTitle(vo.getName() + "의 블로그");
-		defaultBlog.setProfile("spring-logo.jpg");
-		
-		blogService.addBlog(defaultBlog);
+		blogService.createDefaultBlog(vo);
 
 		// 기본 카테고리 생성
-		CategoryVo defaultCategory = new CategoryVo();
-		defaultCategory.setBlogId(vo.getBlogId());
-		defaultCategory.setName("미분류"); // 기본 카테고리
-		defaultCategory.setDescription("기본 카테고리입니다.");
-		
-		categoryService.addCategory(defaultCategory);
+		categoryService.createDefaultCategory(vo);
 	}
 
 }

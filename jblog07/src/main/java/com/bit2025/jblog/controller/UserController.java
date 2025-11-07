@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/user")
 public class UserController {
 
-	private UserJoinFacade joinService;
+	private final UserJoinFacade joinService;
 
 	// 생성자 주입 (스프링이 JoinFacadeService 빈 주입)
 	public UserController( UserJoinFacade joinService) {

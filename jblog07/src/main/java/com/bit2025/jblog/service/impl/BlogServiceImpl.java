@@ -3,8 +3,11 @@ package com.bit2025.jblog.service.impl;
 import org.springframework.stereotype.Service;
 
 import com.bit2025.jblog.domain.BlogVo;
+import com.bit2025.jblog.domain.UserVo;
 import com.bit2025.jblog.repository.BlogRepository;
 import com.bit2025.jblog.service.BlogService;
+
+import jakarta.validation.Valid;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -15,11 +18,17 @@ public class BlogServiceImpl implements BlogService {
 	public BlogServiceImpl(BlogRepository blogRepository) {
 		this.blogRepository = blogRepository;
 	}
-
-	// 개인 블로그 등록
+	
+	// 블로그 생성
 	@Override
-	public void addBlog(BlogVo vo) {
-		blogRepository.insertBlog(vo);
+	public void createDefaultBlog(@Valid UserVo vo) {
+		BlogVo defaultBlog = new BlogVo();
+		
+		defaultBlog.setBlogId(vo.getBlogId());
+		defaultBlog.setTitle(vo.getName() + "의 블로그");
+		defaultBlog.setProfile("spring-logo.jpg");
+		
+		blogRepository.insertBlog(defaultBlog);
 	}
 
 	// 개인 블로그 조회
@@ -27,4 +36,5 @@ public class BlogServiceImpl implements BlogService {
 	public BlogVo getBlog(String blogId) {
 		return blogRepository.findByBlogId(blogId);
 	}
+
 }
