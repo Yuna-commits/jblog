@@ -300,17 +300,18 @@ div#content .blog-list {
 
 .blog-list .list-header {
 	font-weight: bold;
-	color: #555;
 }
 
 .blog-list .list-header .title {
 	float: left;
+	color: #555;
 }
 
 .blog-list .list-header .date {
 	float: right;
 	margin-right: 30px;
 	font-size: 0.95em;
+	color: #666;
 }
 
 .blog-list li {
@@ -320,8 +321,13 @@ div#content .blog-list {
 	border-bottom: 1px solid #ddd;
 }
 
-.blog-list li.active a, li.active span {
-	color: #444;
+.blog-list li.active a {
+	color: #3879D9;
+	font-weight: bold;
+}
+
+.blog-list li.active span {
+	color: #3879D9;
 	font-weight: bold;
 }
 
@@ -347,6 +353,28 @@ div#content .blog-list {
 	display: block;
 	float: right;
 	margin-right: 30px
+}
+
+/* list page */
+.pagination {
+    text-align: center;
+    margin: 25px 0;
+    padding: 10px 0;
+}
+
+.pagination a.page-link {
+    display: inline-block;
+    padding: 5px 5px;
+    color: #3879D9;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.pagination span.active a.page-link {
+    background-color: #3879D9;
+    color: #fff;
+    border-color: #3879D9;
+    cursor: default;
 }
 
 /* admin content */

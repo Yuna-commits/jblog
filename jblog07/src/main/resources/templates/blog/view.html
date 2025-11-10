@@ -61,12 +61,35 @@
 						</li>
 					</th:block>
 				</ul>
+				
+				<!-- 페이지 네비게이션 -->
+				<div class="pagination" th:if="*{postPage.totalPages > 1}">
+					<!-- 이전 페이지로 -->
+					<a th:if="*{postPage.hasPrevGroup()}" 
+					   th:href="@{/{blogId}(blogId=*{blogInfo.blogId}, page=*{postPage.startPage - 1})}"
+       				   class="page-link">이전</a>
+       				   
+       				 <!-- 페이지 번호 (시작 페이지 ~ 마지막 페이지) -->
+       				 <span th:each="i : ${#numbers.sequence(blogView.postPage.startPage, blogView.postPage.endPage)}"
+       				 	   th:classappend="${i == blogView.postPage.currentPage} ? 'active' : ''">
+       				 	<a th:href="@{/{blogId}(blogId=*{blogInfo.blogId}, 
+       				 				categoryId=${hasCategory} ? *{selectedPost.categoryId} : null, page=${i})}"
+       				 	   th:text="${i}" class="page-link">
+       				 	</a>	   
+       				 </span>
+       				 
+       				<!-- 다음 페이지로 -->
+					<a th:if="*{postPage.hasNextGroup()}"
+					   th:href="@{/{blogId}(blogId=*{blogInfo.blogId}, page=*{postPage.endPage + 1})}"
+       				   class="page-link">다음</a>
+				</div>
 			</div>
 		</div>
 
 		<div id="extra">
 			<div class="blog-logo">
 				<!-- @{...} 표현식 안에 *{...}를 중첩하면 문법 오류 -->
+				<!-- 기본 정적 리소스 매핑(/images/**)을 profile 경로 밖으로 빼기 -->
 				<img th:src="@{${'/images/' + blogView.blogInfo.profile}}" alt="블로그 이미지입니다.">
 			</div>
 		</div>
@@ -78,7 +101,7 @@
 				<li><a th:href="@{/{blogId}(blogId=*{blogInfo.blogId})}">전체</a></li>
 				<li th:each="category : *{categories}">
 					<a th:href="@{/{blogId}(blogId=*{blogInfo.blogId}, 
-								categoryId=${category.categoryId}, page=*{postPage.currentPage})}" 
+								categoryId=${category.categoryId})}" 
 						th:text="${category.name}"></a>
 				</li>
 			</ul>
